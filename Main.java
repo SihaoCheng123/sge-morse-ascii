@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -58,11 +59,10 @@ public class Main {
         morse_ascii.put("-....-", '-');
         morse_ascii.put("..--.-", '_');
 
-
         String frase = ".... --- .-.. .- --..-- ...... -- ..- -. -.. ---";
-        String [] cadaChar = frase.split(" ");
+        String[] cadaChar = frase.split(" ");
         StringBuilder stringBuilder = new StringBuilder();
-        try{
+        try {
 
             for (String s : cadaChar) {
                 for (Map.Entry<String, Character> entry : morse_ascii.entrySet()) {
@@ -71,12 +71,34 @@ public class Main {
                     }
                 }
             }
+            System.out.println("Traducción de sihao: " + stringBuilder.toString());
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Error: " + e);
         }
 
-        System.out.println("La frase insertada en código morse es la siguiente:");
-        System.out.println(stringBuilder);
+        // -- cami -- como necesito hacerlo al reves tengo que crear un nuevo mapa que sea como el de mi codigo
 
+        HashMap<Character, String> mapaMorse = new HashMap<>();
+        for (Map.Entry<String, Character> entry : morse_ascii.entrySet()) {
+            mapaMorse.put(Character.toLowerCase(entry.getValue()), entry.getKey());
+        }
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("¿Qué deseas pasar a código morse?");
+        String textoIntroducido = sc.nextLine();
+        textoIntroducido = textoIntroducido.toLowerCase();
+
+        StringBuilder morse = new StringBuilder();
+
+        for (char letra : textoIntroducido.toCharArray()) {
+            String codigoMorse = mapaMorse.get(letra);
+
+            if (codigoMorse != null) {
+                morse.append(codigoMorse).append(" ");
+            }
+        }
+
+        System.out.println(morse.toString().trim());
+        sc.close();
     }
 }
